@@ -1,0 +1,27 @@
+=============================================================
+AETHER ORCHESTRATION PLATFORM - TECHNICAL KNOWLEDGE BASE
+=============================================================
+
+SYSTEM CONFIGURATION:
+- Service Port: 8000
+- Server Bind Address: 127.0.0.1
+- Database Engine: SQLite 3
+- Real-time Pipeline: WebSockets (active on /ws/monitor)
+
+KNOWN ISSUES & RESOLUTIONS:
+1. Error Code: ERR_CONN_REFUSED
+   - Description: The FastAPI server is not reachable on Port 8000.
+   - Fix: Ensure 'python run.py' was executed and check if another process is utilizing port 8000. Use netstat to check.
+   
+2. Error Code: ERR_TELEGRAM_INVALID_TOKEN
+   - Description: The Telegram Bot fails to connect.
+   - Fix: Verify that your TELEGRAM_BOT_TOKEN environment variable in the .env file is correct and not revoked by @BotFather.
+
+3. Workflow Loop Exceeded
+   - Description: Workflow runs into an infinite feedback loop between Writer and Critic.
+   - Fix: Modify the Critic agent's prompt to be more lenient or adjust the Critic's approval conditions in the workflow edges.
+
+BILLING INFORMATION & RULES:
+- Standard Plan: $29/month, includes 5 concurrent agents, 50,000 runs/month.
+- Enterprise Plan: $199/month, unlimited agents, priority queue execution, dedicated webhook support.
+- API Key Overrides: Customers must provide their own Gemini or OpenAI API keys to enable custom LLMs.

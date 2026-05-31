@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aether - AI Agent Orchestration Dashboard</title>
+    <!-- Modern Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Sleek Custom CSS -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-glow"></div>
+                <span class="brand-text">AETHER</span>
+                <span class="brand-badge">AGENT OS</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#dashboard" class="nav-item active" data-tab="dashboard">
+                    <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#agents" class="nav-item" data-tab="agents">
+                    <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                    <span>Agent Hub</span>
+                </a>
+                <a href="#canvas" class="nav-item" data-tab="canvas">
+                    <svg class="nav-icon" viewBox="0 0 24 24"><path d="M16 2.01L6 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-4-3.99zM9 19c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm7 13c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+                    <span>Orchestrator</span>
+                </a>
+                <a href="#console" class="nav-item" data-tab="console">
+                    <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-9 12H5v-2h6v2zm4-4H5v-2h10v2zm4-4H5V6h14v2z"/></svg>
+                    <span>Live Console</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <div class="status-pulse green"></div>
+                    <span>Core System Active</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main class="workspace">
+            <!-- Header Bar -->
+            <header class="header">
+                <div class="header-title">
+                    <h1 id="page-title">Dashboard Overview</h1>
+                    <p class="subtitle" id="page-subtitle">Real-time metrics and overall runtime statistics.</p>
+                </div>
+                
+                <div class="status-widgets">
+                    <!-- Cost Badge -->
+                    <div class="status-badge cost-badge">
+                        <span class="label">PLATFORM SPEND</span>
+                        <span class="val green-text" id="total-cost-display">$0.000000</span>
+                    </div>
+                    <!-- Telegram Badge -->
+                    <div class="status-badge" id="tg-status-badge">
+                        <div class="status-dot red-dot" id="tg-dot"></div>
+                        <span class="label">TELEGRAM BOT</span>
+                        <span class="val" id="tg-status-text">OFFLINE</span>
+                    </div>
+                    <!-- Mode Badge -->
+                    <div class="status-badge">
+                        <svg class="badge-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        <span class="label">LLM INTEGRATION</span>
+                        <span class="val" id="llm-status-text">HYBRID OFFLINE</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area Cards -->
+            <div class="content-body">
+                
+                <!-- ==================== DASHBOARD TAB ==================== -->
+                <section id="tab-dashboard" class="tab-content active">
+                    <div class="grid-layout">
+                        <!-- Metrics Row -->
+                        <div class="metric-card glass">
+                            <h3>Total Cost</h3>
+                            <div class="metric-value green-text" id="metric-cost">$0.00450</div>
+                            <p class="metric-desc">Usage metrics across OpenAI & Gemini APIs.</p>
+                        </div>
+                        <div class="metric-card glass">
+                            <h3>Total Tokens</h3>
+                            <div class="metric-value" id="metric-tokens">2,780</div>
+                            <p class="metric-desc">Prompt & completion processing weights.</p>
+                        </div>
+                        <div class="metric-card glass">
+                            <h3>Configured Agents</h3>
+                            <div class="metric-value" id="metric-agents">6</div>
+                            <p class="metric-desc">Autonomous units loaded in memory.</p>
+                        </div>
+                        <div class="metric-card glass">
+                            <h3>Message Exchanges</h3>
+                            <div class="metric-value text-indigo" id="metric-messages">14</div>
+                            <p class="metric-desc">Reliable agent-to-agent transmissions.</p>
+                        </div>
+
+                        <!-- Main Row: Templates and Cost Breakdown -->
+                        <div class="row-container col-2">
+                            <!-- Left: Pre-built templates list -->
+                            <div class="panel glass">
+                                <div class="panel-header">
+                                    <h2>Pre-Built Workflow Templates</h2>
+                                    <span class="badge blue">PRELOADED</span>
+                                </div>
+                                <div class="templates-list">
+                                    <div class="template-item glass-interactive">
+                                        <div class="template-info">
+                                            <h4>Research & Content Generator</h4>
+                                            <p>Researcher researches facts ➔ Writer drafts post ➔ Critic reviews and editor loops back until approved.</p>
+                                        </div>
+                                        <button class="btn btn-sm btn-primary run-template-btn" data-wf="template_content_gen">Load & Launch</button>
+                                    </div>
+                                    <div class="template-item glass-interactive">
+                                        <div class="template-info">
+                                            <h4>Smart Support Gateway</h4>
+                                            <p>Gateway bot parses query ➔ routes tech requests to Tech Specialist (who queries files) and billing questions to Supervisor.</p>
+                                        </div>
+                                        <button class="btn btn-sm btn-primary run-template-btn" data-wf="template_support_gateway">Load & Launch</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Cost breakdown by agent -->
+                            <div class="panel glass">
+                                <div class="panel-header">
+                                    <h2>Agent Resource Allocation</h2>
+                                </div>
+                                <div class="cost-table-container">
+                                    <table class="cost-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Agent Name</th>
+                                                <th>Tokens Used</th>
+                                                <th>Cost (USD)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="cost-table-body">
+                                            <!-- Injected dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== AGENTS HUB TAB ==================== -->
+                <section id="tab-agents" class="tab-content">
+                    <div class="row-container col-2-3">
+                        <!-- Left: Create/Edit Agent Form -->
+                        <div class="panel glass form-panel">
+                            <div class="panel-header">
+                                <h2 id="agent-form-title">Create New Agent</h2>
+                            </div>
+                            <form id="agent-form" class="sleek-form">
+                                <div class="form-group">
+                                    <label for="agent-id">Agent Unique Key</label>
+                                    <input type="text" id="agent-id" placeholder="e.g. sql_analyzer (letters & underscores only)" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="agent-name">Display Name</label>
+                                        <input type="text" id="agent-name" placeholder="e.g. SQL Expert" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="agent-role">Role/Niche</label>
+                                        <input type="text" id="agent-role" placeholder="e.g. Database Optimizer" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="agent-prompt">System Prompt</label>
+                                    <textarea id="agent-prompt" rows="5" placeholder="Define the agent personality, guardrails, memory style, and operation focus..." required></textarea>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="agent-model">AI Model Selection</label>
+                                        <select id="agent-model">
+                                            <option value="gemini-2.5-flash">Gemini 2.5 Flash (Default)</option>
+                                            <option value="gpt-4o-mini">GPT-4o Mini (OpenAI)</option>
+                                            <option value="gpt-4o">GPT-4o (High Accuracy)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="agent-memory">Memory Buffer</label>
+                                        <select id="agent-memory">
+                                            <option value="buffer">Persistent SQLite Thread</option>
+                                            <option value="none">Stateless Mode</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Authorized Agent Tools</label>
+                                    <div class="checkbox-grid">
+                                        <label class="checkbox-container">
+                                            <input type="checkbox" name="agent-tools" value="search_web">
+                                            <span class="custom-checkbox"></span>
+                                            <span>search_web (Wikipedia / DuckDuckGo)</span>
+                                        </label>
+                                        <label class="checkbox-container">
+                                            <input type="checkbox" name="agent-tools" value="fetch_url">
+                                            <span class="custom-checkbox"></span>
+                                            <span>fetch_url (HTML content reading)</span>
+                                        </label>
+                                        <label class="checkbox-container">
+                                            <input type="checkbox" name="agent-tools" value="calculator">
+                                            <span class="custom-checkbox"></span>
+                                            <span>calculator (Safe math evaluator)</span>
+                                        </label>
+                                        <label class="checkbox-container">
+                                            <input type="checkbox" name="agent-tools" value="read_file">
+                                            <span class="custom-checkbox"></span>
+                                            <span>read_file (Mock system database knowledge)</span>
+                                        </label>
+                                        <label class="checkbox-container">
+                                            <input type="checkbox" name="agent-tools" value="write_file">
+                                            <span class="custom-checkbox"></span>
+                                            <span>write_file (Compile local markdown briefs)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary" id="btn-reset-agent-form">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" id="btn-save-agent">Assemble Agent</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Right: Configured agents list -->
+                        <div class="panel glass list-panel">
+                            <div class="panel-header">
+                                <h2>Active Agents Registry</h2>
+                            </div>
+                            <div class="agents-grid" id="agents-registry-list">
+                                <!-- Injected dynamically via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== ORCHESTRATOR TAB ==================== -->
+                <section id="tab-canvas" class="tab-content">
+                    <div class="canvas-workspace">
+                        <!-- Left Panel: Toolbox -->
+                        <div class="canvas-toolbox glass">
+                            <h3>Agent Toolbox</h3>
+                            <p class="toolbox-desc">Drag and drop agents onto the canvas workspace to incorporate them into the execution network.</p>
+                            <div class="toolbox-items" id="toolbox-agents-list">
+                                <!-- Configured agents as draggable badges -->
+                            </div>
+                            <hr class="toolbox-sep">
+                            <div class="toolbox-actions">
+                                <button class="btn btn-secondary btn-full" id="btn-clear-canvas">Clear Canvas</button>
+                                <button class="btn btn-primary btn-full" id="btn-save-workflow">Save Workflow</button>
+                            </div>
+                        </div>
+
+                        <!-- Center Canvas Editor -->
+                        <div class="canvas-container glass">
+                            <!-- Drag, click-draw custom nodes canvas -->
+                            <div class="canvas-actions-bar">
+                                <div class="workflow-selector">
+                                    <label for="wf-load-dropdown">Active Workflow: </label>
+                                    <select id="wf-load-dropdown">
+                                        <!-- Dynamically injected -->
+                                    </select>
+                                </div>
+                                <button class="btn btn-sm btn-primary" id="btn-open-run-wf-modal">Trigger Run</button>
+                            </div>
+                            
+                            <!-- INTERACTIVE SVG CANVAS AREA -->
+                            <div class="svg-canvas-wrapper" id="svg-canvas-wrapper">
+                                <svg class="svg-canvas" id="workflow-svg" width="100%" height="100%">
+                                    <!-- Dynamic elements, paths, and glowing points will be added here -->
+                                    <defs>
+                                        <!-- SVG Gradients and marker arrows -->
+                                        <marker id="arrow" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#818cf8"/>
+                                        </marker>
+                                        <radialGradient id="node-glow" cx="50%" cy="50%" r="50%">
+                                            <stop offset="0%" stop-color="#818cf8" stop-opacity="0.3"/>
+                                            <stop offset="100%" stop-color="#818cf8" stop-opacity="0"/>
+                                        </radialGradient>
+                                    </defs>
+                                </svg>
+                                <!-- Interactive DOM overlay nodes will sit absolute on top of SVG paths -->
+                                <div class="nodes-overlay" id="nodes-overlay"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== LIVE CONSOLE TAB ==================== -->
+                <section id="tab-console" class="tab-content">
+                    <div class="console-workspace col-2">
+                        <!-- Left Panel: Chat bubble streams split by channel -->
+                        <div class="panel glass console-chat-panel">
+                            <div class="panel-header console-header">
+                                <div class="console-tabs">
+                                    <button class="console-tab-btn active" data-channel="whispers">Agent Whispers</button>
+                                    <button class="console-tab-btn" data-channel="telegram">Telegram Gate</button>
+                                </div>
+                                <span class="pulse-indicator">
+                                    <span class="status-pulse green small"></span>
+                                    <span>Stream Active</span>
+                                </span>
+                            </div>
+                            
+                            <!-- Chats containers -->
+                            <div class="chat-container active" id="chat-whispers">
+                                <div class="chat-bubbles" id="whispers-bubbles-stream">
+                                    <!-- Injected dynamically -->
+                                    <div class="chat-placeholder">
+                                        <p>No agent-to-agent intercommunication traces logged yet. Launch a workflow to inspect reasoning streams.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-container" id="chat-telegram">
+                                <div class="chat-bubbles" id="telegram-bubbles-stream">
+                                    <!-- Injected dynamically -->
+                                    <div class="chat-placeholder">
+                                        <p>No active Telegram conversations received yet. Complete bot configuration in .env and send a message to your BotFather handle.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Dev Terminal simulator -->
+                        <div class="panel glass console-terminal-panel">
+                            <div class="panel-header terminal-header">
+                                <h2>Aether System Logs (Raw Thread Stream)</h2>
+                                <button class="btn btn-sm btn-secondary" id="btn-clear-terminal">Clear</button>
+                            </div>
+                            <div class="terminal-body" id="terminal-log-stream">
+                                <!-- Injected dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Trigger Workflow Input Modal -->
+    <div class="modal-overlay" id="run-wf-modal">
+        <div class="modal glass">
+            <h3>Trigger Workflow Execution</h3>
+            <p>Supply a starting payload or query parameters to kick off the collaborative agent cycle.</p>
+            <div class="form-group">
+                <label for="wf-run-input">Input Instruction / Query</label>
+                <textarea id="wf-run-input" rows="4" placeholder="e.g. Draft an informative article outlining Solar panel costs and billing parameters."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="btn-close-run-wf-modal">Cancel</button>
+                <button class="btn btn-primary" id="btn-execute-wf">Launch Pipeline</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core App Logic scripts -->
+    <script src="/static/js/monitor.js"></script>
+    <script src="/static/js/workflow-canvas.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
