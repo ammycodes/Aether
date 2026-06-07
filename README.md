@@ -12,38 +12,50 @@ Aether is designed with clear boundary separation between the **Web UI Presentat
 
 ```mermaid
 graph TD
-    subgraph Frontend [Presentation Layer (Web UI - Glassmorphic SPA)]
-        A[Dashboard & Metrics Ticker]
-        B[SVG Workflow Canvas Editor]
-        C[Live Console Chat & scrolling Terminal]
+
+    subgraph Frontend
+        A["Dashboard and Metrics Ticker"]
+        B["SVG Workflow Canvas Editor"]
+        C["Live Console Chat and Scrolling Terminal"]
     end
 
-    subgraph Backend [FastAPI Application Engine]
-        D[FastAPI REST API Routes]
-        E[WebSockets Broadcaster]
-        F[Telegram Long Polling Worker]
-        G[Workflow Graph Parser]
+    subgraph Backend
+        D["FastAPI REST API Routes"]
+        E["WebSockets Broadcaster"]
+        F["Telegram Long Polling Worker"]
+        G["Workflow Graph Parser"]
     end
 
-    subgraph Runtime [Aether Agent Engine]
-        H[Agent ReAct Executor]
-        I[Real Tools: search_web, fetch_url, calculator, write_file, read_file]
+    subgraph Runtime
+        H["Agent ReAct Executor"]
+        I["Real Tools: search_web, fetch_url, calculator, write_file, read_file"]
     end
 
-    subgraph Persistence [Relational Persistence Layer]
-        J[(SQLite Database - agents.db)]
+    subgraph Persistence
+        J[("SQLite Database - agents.db")]
     end
 
-    %% Communications
-    A & B & C <-->|REST / WebSockets| D & E
+    A <-->|REST / WebSockets| D
+    A <-->|REST / WebSockets| E
+
+    B <-->|REST / WebSockets| D
+    B <-->|REST / WebSockets| E
+
+    C <-->|REST / WebSockets| D
+    C <-->|REST / WebSockets| E
+
     F -->|Triggers Async Workflow| G
     G -->|Activates Nodes| H
     H -->|Executes ReAct Loops| I
-    H & G -->|Persists logs, costs & history| J
-    D -->|Queries / Mutations| J
-    E <-->|Broadcasts system logs & node orbs| B & C
-```
 
+    H -->|Persists Logs, Costs and History| J
+    G -->|Persists Logs, Costs and History| J
+
+    D -->|Queries / Mutations| J
+
+    E <-->|Broadcasts System Logs and Node Orbs| B
+    E <-->|Broadcasts System Logs and Node Orbs| C
+```
 ---
 
 ## ⚡ Architectural Decisions & Justifications
