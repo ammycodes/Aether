@@ -1,6 +1,6 @@
 # Aether - AI Agent Orchestration Platform
 
-A state-of-the-art **AI Agent Orchestration Platform** built for the Yuno AI Engineer Hiring Challenge. Aether enables users to visually design collaborative multi-agent workflows, configures their personalities, authorized tools, and memory parameters, and triggers them via manual triggers or **live Telegram messaging channels**.
+A state-of-the-art **AI Agent Orchestration Platform** built for the  AI Engineer Hiring Challenge. Aether enables users to visually design collaborative multi-agent workflows, configures their personalities, authorized tools, and memory parameters, and triggers them via manual triggers or **live Telegram messaging channels**.
 
 Aether runs **completely locally** out-of-the-box using a single setup command, and features an **intelligent Offline/Hybrid Mode** that allows full testing of the visual transitions, feedback loops, tool actions, and Telegram bots without requiring API keys.
 
